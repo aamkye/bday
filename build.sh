@@ -16,7 +16,7 @@ BUILD_TEST=0
 BUILD_PUSH=0
 BUILD_FROM_SCRATCH=0
 
-DOCKER_IMAGE="b-day"
+DOCKER_IMAGE="lodufqa/b-day"
 
 USAGE="\
 Overview:
@@ -81,16 +81,16 @@ function build-image {
       --build-arg GIT_DATE="${GIT_DATE:-''}" \
       --build-arg BUILD_DATE="$(date +%Y-%m-%dT%H:%M:%S%z)" \
       . \
-      -t "${DOCKER_IMAGE}/app:${GIT_SHA}"
+      -t "${DOCKER_IMAGE}:${GIT_SHA}"
 
     if [[ "${BUILD_TEST:-'0'}" -eq "0" ]]; then
       docker tag \
-        "${DOCKER_IMAGE}/app:${GIT_SHA}" \
-        "${DOCKER_IMAGE}/app:latest"
+        "${DOCKER_IMAGE}:${GIT_SHA}" \
+        "${DOCKER_IMAGE}:latest"
     else
       docker tag \
-        "${DOCKER_IMAGE}/app:${GIT_SHA}" \
-        "${DOCKER_IMAGE}/app:latest-dev"
+        "${DOCKER_IMAGE}:${GIT_SHA}" \
+        "${DOCKER_IMAGE}:latest-dev"
     fi
 
   fi
@@ -112,12 +112,13 @@ function process-build {
 }
 
 function push-image {
-  docker push "${DOCKER_IMAGE}/app:${1}" >&2
+  docker push "${DOCKER_IMAGE}:${1}" >&2
 }
 
 function process-push {
   if [[ "${BUILD_PUSH:-'0'}" -eq "1" ]]; then
-    push-image "latest"
+    docker login
+    push-image "latest" || true
     push-image "${GIT_SHA}"
   fi
 }
