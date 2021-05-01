@@ -1,5 +1,7 @@
+readme.md
 dockerfile
 docker-compose.yml
-.git
-.vscode
 build.sh
+.vscode
+.gitignore
+.git
