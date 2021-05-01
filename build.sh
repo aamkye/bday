@@ -8,7 +8,7 @@ set -e
 ###############################################################################
 # Variables
 PROG_NAME=${0}
-PROG_OPTS=':bvstp'
+PROG_OPTS=':bvstph'
 
 BUILD_SHELL=0
 BUILD_VERBOSE=0
@@ -20,8 +20,7 @@ DOCKER_IMAGE="lodufqa/b-day"
 
 USAGE="\
 Overview:
-  Tool for building, preparing and testing environments:
-  local, dev, stage and prod, including development purposes.
+  Tool for building, preparing, testing and pushing docker images.
 
 Program:
   ${PROG_NAME} [${PROG_OPTS}]
@@ -134,10 +133,10 @@ do
     s) BUILD_FROM_SCRATCH=1 ;;
     t) BUILD_TEST=1 ;;
     p) BUILD_PUSH=1 ;;
+    h) usage ;;
     :) error "missing argument for -- '${OPTARG}'" 1 ;;
     *) error "invalid option -- '${OPTARG}'" 2 ;; esac
 done
-
 
 process-opts
 process-vars

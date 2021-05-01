@@ -1,5 +1,5 @@
 FROM python:3.9-slim as base
-LABEL maintainer="Amadeusz Kryze <amadeusz.kryze@tieto.com>"
+LABEL maintainer="Amadeusz Kryze <amadeusz.kryze@gmail.com>"
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONHASHSEED=0
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -19,10 +19,10 @@ COPY --chown=app:app_group ./requirements.txt /tmp
 RUN pip3 install --user -r /tmp/requirements.txt
 
 FROM reqs AS final
-ARG com.b-day.git.sha
-ARG com.b-day.git.branch
-ARG com.b-day.git.date
-ARG com.b-day.build.date
+ARG GIT_SHA
+ARG GIT_BRANCH
+ARG GIT_DATE
+ARG BUILD_DATE
 LABEL com.b-day.git.sha="${GIT_SHA}"
 LABEL com.b-day.git.branch="${GIT_BRANCH}"
 LABEL com.b-day.git.date="${GIT_DATE}"
