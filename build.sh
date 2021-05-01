@@ -8,12 +8,13 @@ set -e
 ###############################################################################
 # Variables
 PROG_NAME=${0}
-PROG_OPTS='bvs'
+PROG_OPTS=':bvstp'
 
 BUILD_SHELL=0
 BUILD_VERBOSE=0
 BUILD_TEST=0
 BUILD_PUSH=0
+BUILD_FROM_SCRATCH=0
 
 DOCKER_IMAGE="b-day"
 
@@ -66,23 +67,32 @@ function process-docker-flags {
 # build-image "final"
 # shellcheck disable=2046,2086
 function build-image {
-  # Make new line if docker does silent build
-  if [[ "${BUILD_VERBOSE:-''}" -lt '2' ]]; then
-    echo
-  fi
-
-  if [[ "${BUILD_SHELL:-'0'}" -ge "0" ]]; then
+  local TARGET
+  if [[ "${BUILD_SHELL:-'0'}" -eq "1" ]]; then
+    if [[ "${BUILD_TEST:-'0'}}" -eq "0" ]]; then
+      TARGET="final"
+    else
+      TARGET="dev"
+    fi
     docker build -f "./dockerfile" ${DOCKER_FLAGS:-} \
+      --target "${TARGET}" \
       --build-arg GIT_SHA="${GIT_SHA:-''}" \
       --build-arg GIT_BRANCH="${GIT_BRANCH:-''}" \
       --build-arg GIT_DATE="${GIT_DATE:-''}" \
-      --build-arg BUILD_DATE="$(date --iso-8601=seconds)" \
+      --build-arg BUILD_DATE="$(date +%Y-%m-%dT%H:%M:%S%z)" \
       . \
-      -t "${DOCKER_IMAGE}/app:latest"
+      -t "${DOCKER_IMAGE}/app:${GIT_SHA}"
 
-    docker tag \
-      "${DOCKER_IMAGE}/app:latest" \
-      "${DOCKER_IMAGE}/app:${GIT_SHA}"
+    if [[ "${BUILD_TEST:-'0'}" -eq "0" ]]; then
+      docker tag \
+        "${DOCKER_IMAGE}/app:${GIT_SHA}" \
+        "${DOCKER_IMAGE}/app:latest"
+    else
+      docker tag \
+        "${DOCKER_IMAGE}/app:${GIT_SHA}" \
+        "${DOCKER_IMAGE}/app:latest-dev"
+    fi
+
   fi
 }
 
@@ -95,7 +105,8 @@ function process-build {
   process-docker-flags
   if [[ "${BUILD_SHELL:-'0'}" -eq "1" ]]; then
     build-image
-  elif [[ "${BUILD_TEST:-'0'}" -eq "1" ]]; then
+  fi
+  if [[ "${BUILD_TEST:-'0'}" -eq "1" ]]; then
     run-tests
   fi
 }

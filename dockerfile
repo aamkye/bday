@@ -1,12 +1,15 @@
 FROM python:3.9-slim as base
+LABEL maintainer="Amadeusz Kryze <amadeusz.kryze@tieto.com>"
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONHASHSEED=0
+ENV PYTHONDONTWRITEBYTECODE=1
+WORKDIR /app
 RUN apt update && apt install -y sudo apt-transport-https && \
   groupadd -g 1000 -r app_group && useradd -m -r -g app_group -u 1000 app && \
-  echo "app ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/app && \
-  chmod 0440 /etc/sudoers.d/app && \
+  chown app:app_group /app && \
   apt install -y --allow-unauthenticated --no-install-recommends \
   dumb-init && \
-  rm -rf /var/lib/apt/lists/* && \
-  echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && locale-gen
+  rm -rf /var/lib/apt/lists/*
 USER app
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
