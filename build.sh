@@ -16,7 +16,7 @@ BUILD_TEST=0
 BUILD_PUSH=0
 BUILD_FROM_SCRATCH=0
 BUILD_RUN=0
-TEST_TYPE=""
+TEST_TYPE="ALL"
 
 DOCKER_IMAGE="lodufqa/b-day"
 
@@ -159,7 +159,7 @@ do
     T) TEST_TYPE="${OPTARG}" ;;
     p) BUILD_PUSH=1 ;;
     r) BUILD_RUN=1 ;;
-    h) usage ;;
+    h) usage ;;∂
     :) error "missing argument for -- '${OPTARG}'" 1 ;;
     *) error "invalid option -- '${OPTARG}'" 2 ;; esac
 done
