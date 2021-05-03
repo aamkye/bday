@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field, validator
-from bson import ObjectId
-from typing import Optional
 import datetime
+from typing import Optional
+from bson import ObjectId
+
+from pydantic import BaseModel, Field, validator
 
 
 class PyObjectId(ObjectId):
@@ -10,10 +11,10 @@ class PyObjectId(ObjectId):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
-        if not ObjectId.is_valid(v):
+    def validate(cls, val):
+        if not ObjectId.is_valid(val):
             raise ValueError("Invalid objectid")
-        return ObjectId(v)
+        return ObjectId(val)
 
     @classmethod
     def __modify_schema__(cls, field_schema):
@@ -22,21 +23,21 @@ class PyObjectId(ObjectId):
 class UserModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: Optional[str] = Field(default=None)
-    dateOfBirth: str = Field(...)
+    date_of_birth: str = Field(...)
 
     @validator('name', always=True)
-    def validateName(cls, v):
-        if v == None:
+    def validate_name(cls, val):
+        if val is None:
             return None
-        if not v.isalpha():
+        if not val.isalpha():
             raise ValueError("Invalid charactes in username, only alphas are allowed. ")
-        return v
+        return val
 
-    @validator('dateOfBirth')
-    def validateDate(cls, v):
-        if not datetime.datetime.strptime(v, "%Y-%m-%d").date() < datetime.date.today():
+    @validator('date_of_birth')
+    def validate_date(cls, val):
+        if datetime.datetime.strptime(val, "%Y-%m-%d").date() >= datetime.date.today():
             raise ValueError("Date is from the future or is today.")
-        return v
+        return val
 
     class Config:
         allow_population_by_field_name = True
@@ -44,21 +45,6 @@ class UserModel(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "dateOfBirth": "1992-06-22",
+                "date_of_birth": "1992-06-22",
             }
         }
-
-### To be used in future:
-# class UpdateUserModel(BaseModel):
-#     name: Optional[str]
-#     dateOfBirth: Optional[datetime.date]
-
-#     class Config:
-#         arbitrary_types_allowed = True
-#         json_encoders = {ObjectId: str}
-#         schema_extra = {
-#             "example": {
-#                 "name": "josh",
-#                 "dateOfBirth": "1992-06-22",
-#             }
-#         }

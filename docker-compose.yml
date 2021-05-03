@@ -17,12 +17,6 @@ services:
         target: /app
     command: [ "./main.py" ]
 
-  # mongo-client-temp:
-  #   image: mongo:latest
-  #   command: mongo --host mongodb -u root -p admin123 --authenticationDatabase admin --eval "db.createUser({user:'app_user', pwd:'pigeon', roles:[{role:'readWrite',db:'bday'}]});"
-  #   depends_on:
-  #     - b-day-app
-
   mongo-express:
     image: mongo-express:latest
     ports:

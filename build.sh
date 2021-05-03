@@ -8,13 +8,15 @@ set -e
 ###############################################################################
 # Variables
 PROG_NAME=${0}
-PROG_OPTS=':bvstph'
+PROG_OPTS=':bvstprhT:'
 
 BUILD_SHELL=0
 BUILD_VERBOSE=0
 BUILD_TEST=0
 BUILD_PUSH=0
 BUILD_FROM_SCRATCH=0
+BUILD_RUN=0
+TEST_TYPE=""
 
 DOCKER_IMAGE="lodufqa/b-day"
 
@@ -78,7 +80,6 @@ function build-image {
       --build-arg GIT_SHA="${GIT_SHA:-''}" \
       --build-arg GIT_BRANCH="${GIT_BRANCH:-''}" \
       --build-arg GIT_DATE="${GIT_DATE:-''}" \
-      --build-arg BUILD_DATE="$(date +%Y-%m-%dT%H:%M:%S%z)" \
       . \
       -t "${DOCKER_IMAGE}:${GIT_SHA}"
 
@@ -96,7 +97,24 @@ function build-image {
 }
 
 function run-tests {
-  true
+    if [[ "${TEST_TYPE:-'ALL'}" == "LINT" || "${TEST_TYPE:-'ALL'}" == 'ALL' ]]; then
+      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pylint module/ tests/ main.py
+    fi
+    if [[ "${TEST_TYPE:-'ALL'}" == "UNIT" || "${TEST_TYPE:-'ALL'}" == 'ALL' ]]; then
+      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pytest -m unit
+    fi
+    if [[ "${TEST_TYPE:-'ALL'}" == "E2E" || "${TEST_TYPE:-'ALL'}" == 'ALL' ]]; then
+      docker-compose down --remove-orphans || true
+      docker-compose up -d
+      docker run --rm -v $(pwd):/app --net=host "${DOCKER_IMAGE}":latest-dev pytest -m e2e
+      docker-compose down --remove-orphans
+    fi
+}
+
+function run-env {
+  docker-compose down --remove-orphans && \
+    docker-compose up && \
+    docker-compose down --remove-orphans
 }
 
 # shellcheck disable=2046,2086
@@ -105,8 +123,14 @@ function process-build {
   if [[ "${BUILD_SHELL:-'0'}" -eq "1" ]]; then
     build-image
   fi
+}
+
+function process-run {
   if [[ "${BUILD_TEST:-'0'}" -eq "1" ]]; then
     run-tests
+  fi
+  if [[ "${BUILD_RUN:-'0'}" -eq "1" ]]; then
+    run-env
   fi
 }
 
@@ -132,7 +156,9 @@ do
     v) BUILD_VERBOSE=1 ;;
     s) BUILD_FROM_SCRATCH=1 ;;
     t) BUILD_TEST=1 ;;
+    T) TEST_TYPE="${OPTARG}" ;;
     p) BUILD_PUSH=1 ;;
+    r) BUILD_RUN=1 ;;
     h) usage ;;
     :) error "missing argument for -- '${OPTARG}'" 1 ;;
     *) error "invalid option -- '${OPTARG}'" 2 ;; esac
@@ -141,6 +167,7 @@ done
 process-opts
 process-vars
 process-build
+process-run
 process-push
 
 ###############################################################################

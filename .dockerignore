@@ -1,6 +1,7 @@
 readme.md
 dockerfile
 docker-compose.yml
+docker-compose-test.yml
 build.sh
 .venv
 .vscode

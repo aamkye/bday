@@ -1,7 +1,6 @@
 import datetime
 
-def calculate_dates(bday: datetime.date):
-    now = datetime.date.today()
+def calculate_dates(bday: datetime.date, now: datetime.date = datetime.date.today()):
     delta1 = datetime.datetime(now.year, bday.month, bday.day).date()
     delta2 = datetime.datetime(now.year+1, bday.month, bday.day).date()
 

@@ -1,0 +1,11 @@
+[MASTER]
+disable=
+    C0114, # missing-module-docstring
+    C0115, # missing-class-docstring
+    C0116, # issing-function-docstring
+    E0611, # no-name-in-module
+    E0401, # import-error
+    E0213, # no-self-argument
+    R0201, # no-self-use
+    R0903, # too-few-public-methods
+    W1508, # invalid-envvar-default
