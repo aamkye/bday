@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  b-day-app:
+    image: lodufqa/b-day:latest-dev
+    ports:
+      - 0.0.0.0:80:8080
+    environment:
+      AUTO_RELOAD: 'true'
+      MONGODB_URL: mongodb://root:admin123@mongodb/?retryWrites=true&w=majority
+      PATH: /home/app/.local/bin/:$PATH
+    depends_on:
+      - mongodb
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    command: [ "./main.py" ]
+
+  # mongo-client-temp:
+  #   image: mongo:latest
+  #   command: mongo --host mongodb -u root -p admin123 --authenticationDatabase admin --eval "db.createUser({user:'app_user', pwd:'pigeon', roles:[{role:'readWrite',db:'bday'}]});"
+  #   depends_on:
+  #     - b-day-app
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - 0.0.0.0:8081:8081
+    depends_on:
+      - mongodb
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
+      ME_CONFIG_MONGODB_SERVER: mongodb
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: bday
+    ports:
+      - 0.0.0.0:27017:27017

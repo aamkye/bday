@@ -9,8 +9,10 @@ RUN apt update && apt install -y sudo apt-transport-https && \
   chown app:app_group /app && \
   apt install -y --allow-unauthenticated --no-install-recommends \
   dumb-init && \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* && \
+  python -m pip install --upgrade pip
 USER app
+ENV PATH="/home/app/.local/bin/:${PATH}"
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 FROM base AS reqs

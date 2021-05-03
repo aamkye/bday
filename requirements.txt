@@ -2,3 +2,6 @@ fastapi
 hypercorn
 pymongo
 pydantic
+typing-extensions
+motor
+dnspython

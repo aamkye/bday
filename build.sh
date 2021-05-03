@@ -68,7 +68,7 @@ function process-docker-flags {
 function build-image {
   local TARGET
   if [[ "${BUILD_SHELL:-'0'}" -eq "1" ]]; then
-    if [[ "${BUILD_TEST:-'0'}}" -eq "0" ]]; then
+    if [[ "${BUILD_TEST:-'0'}" -eq "0" ]]; then
       TARGET="final"
     else
       TARGET="dev"

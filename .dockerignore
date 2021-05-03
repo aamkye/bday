@@ -2,6 +2,10 @@ readme.md
 dockerfile
 docker-compose.yml
 build.sh
+.venv
 .vscode
 .gitignore
 .git
+__pycache__
+ansible
+terragrunt
