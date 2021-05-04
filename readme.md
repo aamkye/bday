@@ -13,7 +13,7 @@ This is a RESTFUL app that receives requests from users and is able to show if t
 ## Run env in development mode:
 
 ```
-./build.sh -br
+./build.sh -btr
 ```
 
 After running this command docker-compose env will be set up with hot-reload for python changes, so there is no need to rerun stack after changing a few lines.
@@ -31,7 +31,10 @@ Additionally there is `mongo-express` container that allows exploration of mongo
 ## Run test automaticly
 
 ```
-./build.sh -bt
+./build.sh -bt -T "all"
+./build.sh -bt -T "lint"
+./build.sh -bt -T "unit"
+./build.sh -bt -T "e2e"
 ```
 
 ## Run tests manually (locally)
@@ -50,9 +53,15 @@ source .venv/bin/activate
 
 Now you are able to run tests locally.
 
+```
+pylint module/ tests/ main.py
+pytest -m unit --color=yes
+pytest -m e2e --color=yes # while env is up
+```
+
 ## Run container manually:
 
 ```
-./build.sh -bt -T "NONE"
+./build.sh -bt
 docker run -it --rm -v $(pwd):/app lodufqa/b-day:latest-dev bash
 ```
