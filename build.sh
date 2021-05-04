@@ -16,7 +16,7 @@ BUILD_TEST=0
 BUILD_PUSH=0
 BUILD_FROM_SCRATCH=0
 BUILD_RUN=0
-TEST_TYPE="ALL"
+TEST_TYPE=""
 
 DOCKER_IMAGE="lodufqa/b-day"
 
@@ -97,16 +97,16 @@ function build-image {
 }
 
 function run-tests {
-    if [[ "${TEST_TYPE:-'ALL'}" == "LINT" || "${TEST_TYPE:-'ALL'}" == 'ALL' ]]; then
+    if [[ "${TEST_TYPE:-''}" == "lint" || "${TEST_TYPE:-''}" == 'all' ]]; then
       docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pylint module/ tests/ main.py
     fi
-    if [[ "${TEST_TYPE:-'ALL'}" == "UNIT" || "${TEST_TYPE:-'ALL'}" == 'ALL' ]]; then
-      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pytest -m unit
+    if [[ "${TEST_TYPE:-''}" == "unit" || "${TEST_TYPE:-''}" == 'all' ]]; then
+      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pytest -m unit --color=yes
     fi
-    if [[ "${TEST_TYPE:-'ALL'}" == "E2E" || "${TEST_TYPE:-'ALL'}" == 'ALL' ]]; then
+    if [[ "${TEST_TYPE:-''}" == "e2e" || "${TEST_TYPE:-''}" == 'all' ]]; then
       docker-compose down --remove-orphans || true
       docker-compose up -d
-      docker run --rm -v $(pwd):/app --net=host "${DOCKER_IMAGE}":latest-dev pytest -m e2e
+      docker run --rm -v $(pwd):/app --net=host "${DOCKER_IMAGE}":latest-dev pytest -m e2e --color=yes
       docker-compose down --remove-orphans
     fi
 }
@@ -126,7 +126,7 @@ function process-build {
 }
 
 function process-run {
-  if [[ "${BUILD_TEST:-'0'}" -eq "1" ]]; then
+  if [[ "${BUILD_TEST:-'1'}" -eq "1" && -n TEST_TYPE ]]; then
     run-tests
   fi
   if [[ "${BUILD_RUN:-'0'}" -eq "1" ]]; then
@@ -159,7 +159,7 @@ do
     T) TEST_TYPE="${OPTARG}" ;;
     p) BUILD_PUSH=1 ;;
     r) BUILD_RUN=1 ;;
-    h) usage ;;∂
+    h) usage ;;
     :) error "missing argument for -- '${OPTARG}'" 1 ;;
     *) error "invalid option -- '${OPTARG}'" 2 ;; esac
 done

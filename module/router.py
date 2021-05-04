@@ -45,8 +45,10 @@ async def put_user(user_id: str, body: bday.UserModel = Body(...)):
 async def show_user(user_id: str):
     if (user := await db.users.find_one({"name": user_id})) is not None:
         days = bday_calc.calculate_dates(
-            datetime.strptime(user['date_of_birth'],
-            "%Y-%m-%d").date()
+            datetime.strptime(
+                user['date_of_birth'],
+                "%Y-%m-%d"
+            ).date()
         )
         if days == 0:
             content={ "message": f"Hello, {user_id}! Happy birthday!" }

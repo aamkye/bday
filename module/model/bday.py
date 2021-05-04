@@ -4,7 +4,6 @@ from bson import ObjectId
 
 from pydantic import BaseModel, Field, validator
 
-
 class PyObjectId(ObjectId):
     @classmethod
     def __get_validators__(cls):
@@ -43,6 +42,9 @@ class UserModel(BaseModel):
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+        fields = {
+            "date_of_birth": "date_of_birth"
+        }
         schema_extra = {
             "example": {
                 "date_of_birth": "1992-06-22",
