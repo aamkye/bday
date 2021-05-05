@@ -65,4 +65,12 @@ async def show_user(user_id: str):
 
 @router.get("/health", response_description="Healthcheck")
 async def healthcheck():
-    return JSONResponse(status_code=status.HTTP_200_OK, content="OK")
+    try:
+        await db.command("isMaster")
+    except Exception:
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content="NOK")
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content="OK")

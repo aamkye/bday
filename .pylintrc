@@ -9,3 +9,4 @@ disable=
     R0201, # no-self-use
     R0903, # too-few-public-methods
     W1508, # invalid-envvar-default
+    W0703, # broad-except
