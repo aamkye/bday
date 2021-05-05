@@ -2,10 +2,12 @@ import json
 import pytest
 import requests
 
+_URL = "localhost:8080"
+
 
 @pytest.mark.e2e
 def test_good_health_api():
-    resp = requests.get("http://localhost:80/health")
+    resp = requests.get(f"http://{_URL}/health")
 
     assert resp.status_code == 200
 
@@ -20,7 +22,7 @@ def test_good_put_api(user, date):
         "date_of_birth": f"{date}"
     }
     resp = requests.put(
-        f"http://localhost:80/hello/{user}",
+        f"http://{_URL}/hello/{user}",
         data=json.dumps(
             params,
             indent=4))
@@ -38,7 +40,7 @@ def test_bad_put_api(user, date):
         "date_of_birth": f"{date}"
     }
     resp = requests.put(
-        f"http://localhost:80/hello/{user}",
+        f"http://{_URL}/hello/{user}",
         data=json.dumps(
             params,
             indent=4))
@@ -52,7 +54,7 @@ def test_bad_put_api(user, date):
     ('asdf'),
 ])
 def test_good_get_api(user):
-    resp = requests.get(f"http://localhost:80/hello/{user}")
+    resp = requests.get(f"http://{_URL}/hello/{user}")
 
     assert resp.status_code == 200
     assert user in resp.text
@@ -64,6 +66,6 @@ def test_good_get_api(user):
     ('asdfuiop'),
 ])
 def test_bad_get_api(user):
-    resp = requests.get(f"http://localhost:80/hello/{user}")
+    resp = requests.get(f"http://{_URL}/hello/{user}")
 
     assert resp.status_code == 404
