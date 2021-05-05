@@ -60,14 +60,16 @@ async def show_user(user_id: str):
                     Your birthday is in {days} day(s)"}
         return JSONResponse(status_code=status.HTTP_200_OK, content=content)
 
-    raise HTTPException(status_code=404, detail=f"User {user_id} not found")
-
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content=f"User {user_id} not found")
 
 @router.get("/health", response_description="Healthcheck")
 async def healthcheck():
     try:
         await db.command("isMaster")
-    except Exception:
+    except Exception as exc:
+        print(str(exc))
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content="NOK")
