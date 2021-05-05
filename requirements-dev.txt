@@ -2,4 +2,5 @@ shellcheck-py
 pylint
 pytest
 requests
-pep8
+pycodestyle
+autopep8

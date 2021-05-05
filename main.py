@@ -17,8 +17,10 @@ shutdown_event = asyncio.Event()
 app = FastAPI()
 app.include_router(router.router)
 
+
 def _signal_handler(*_: typing.Any) -> None:
     shutdown_event.set()
+
 
 def main():
     config = Config()
@@ -34,6 +36,7 @@ def main():
             shutdown_trigger=shutdown_event.wait
         )
     )
+
 
 if __name__ == '__main__':
     main()

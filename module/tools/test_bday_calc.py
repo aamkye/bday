@@ -3,6 +3,7 @@ import pytest
 
 from . import bday_calc
 
+
 @pytest.mark.unit
 @pytest.mark.parametrize("bday, today, expected", [
     ('1992-06-02', '2020-05-31', 2),

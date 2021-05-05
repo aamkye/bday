@@ -8,7 +8,7 @@ set -e
 ###############################################################################
 # Variables
 PROG_NAME=${0}
-PROG_OPTS=':bvstprhT:'
+PROG_OPTS=':abvstprhT:'
 
 BUILD_SHELL=0
 BUILD_VERBOSE=0
@@ -100,22 +100,27 @@ function build-image {
 function run-tests {
     if [[ "${TEST_TYPE:-''}" == "format" || "${TEST_TYPE:-''}" == 'all' ]]; then
       if [[ "${AUTOFORMAT:-'0'}" == "0" ]]; then
-        docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pep8 module/ tests/ main.py
+        docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev \
+          pycodestyle module/ tests/ main.py
       else
-        docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev autopep8 -in-place -aggressive module/ tests/ main.py
+        docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev \
+          autopep8 --in-place --aggressive --aggressive --recursive --max-line-length=79 module/ tests/ main.py
       fi
 
     fi
     if [[ "${TEST_TYPE:-''}" == "lint" || "${TEST_TYPE:-''}" == 'all' ]]; then
-      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pylint module/ tests/ main.py
+      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev \
+        pylint module/ tests/ main.py
     fi
     if [[ "${TEST_TYPE:-''}" == "unit" || "${TEST_TYPE:-''}" == 'all' ]]; then
-      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pytest -m unit --color=yes
+      docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev \
+        pytest -m unit --color=yes
     fi
     if [[ "${TEST_TYPE:-''}" == "e2e" || "${TEST_TYPE:-''}" == 'all' ]]; then
       docker-compose down --remove-orphans || true
       docker-compose up -d
-      docker run --rm -v $(pwd):/app --net=host "${DOCKER_IMAGE}":latest-dev pytest -m e2e --color=yes
+      docker run --rm -v $(pwd):/app --net=host "${DOCKER_IMAGE}":latest-dev \
+        pytest -m e2e --color=yes
       docker-compose down --remove-orphans
     fi
 }

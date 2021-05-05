@@ -2,6 +2,7 @@ import pytest
 
 from . import bday
 
+
 @pytest.mark.unit
 @pytest.mark.parametrize("_id, name, date_of_birth", [
     ('507f1f77bcf86cd799439011', 'asdf', "2020-06-22"),
@@ -16,6 +17,7 @@ def test_good_user_model(_id, name, date_of_birth):
         name=name,
         date_of_birth=date_of_birth
     )
+
 
 @pytest.mark.unit
 @pytest.mark.parametrize("_id, name, date_of_birth", [
@@ -33,6 +35,7 @@ def test_bad_id_user_model(_id, name, date_of_birth):
             date_of_birth=date_of_birth
         )
 
+
 @pytest.mark.unit
 @pytest.mark.parametrize("_id, name, date_of_birth", [
     ('507f1f77bcf86cd799439011', 'asdf1', "2020-06-22"),
@@ -49,6 +52,7 @@ def test_bad_name_user_model(_id, name, date_of_birth):
             date_of_birth=date_of_birth
         )
 
+
 @pytest.mark.unit
 @pytest.mark.parametrize("_id, name, date_of_birth", [
     ('507f1f77bcf86cd799439011', 'qwer', "2030-06-22"),
@@ -61,6 +65,7 @@ def test_future_date_user_model(_id, name, date_of_birth):
             name=name,
             date_of_birth=date_of_birth
         )
+
 
 @pytest.mark.unit
 @pytest.mark.parametrize("_id, name, date_of_birth", [

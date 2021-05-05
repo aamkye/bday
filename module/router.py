@@ -14,6 +14,7 @@ router = APIRouter()
 client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"])
 db = client.bday
 
+
 @router.put(
     "/hello/{user_id}",
     response_description="Create user entry.",
@@ -38,6 +39,7 @@ async def put_user(user_id: str, body: bday.UserModel = Body(...)):
 
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
 
+
 @router.get(
     "/hello/{user_id}",
     response_description="Get a single user.",
@@ -51,12 +53,15 @@ async def show_user(user_id: str):
             ).date()
         )
         if days == 0:
-            content={ "message": f"Hello, {user_id}! Happy birthday!" }
+            content = {"message": f"Hello, {user_id}! Happy birthday!"}
         else:
-            content={ "message": f"Hello, {user_id}! Your birthday is in {days} day(s)"}
+            content = {
+                "message": f"Hello, {user_id}! \
+                    Your birthday is in {days} day(s)"}
         return JSONResponse(status_code=status.HTTP_200_OK, content=content)
 
     raise HTTPException(status_code=404, detail=f"User {user_id} not found")
+
 
 @router.get("/health", response_description="Healthcheck")
 async def healthcheck():
