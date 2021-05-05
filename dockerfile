@@ -8,9 +8,10 @@ RUN apt update && apt install -y sudo apt-transport-https && \
   groupadd -g 1000 -r app_group && useradd -m -r -g app_group -u 1000 app && \
   chown app:app_group /app && \
   apt install -y --allow-unauthenticated --no-install-recommends \
-  dumb-init && \
+  dumb-init wget && \
   rm -rf /var/lib/apt/lists/* && \
-  python -m pip install --upgrade pip
+  python -m pip install --upgrade pip && \
+  wget -O /rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 USER app
 ENV PATH="/home/app/.local/bin/:${PATH}"
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
