@@ -18,7 +18,7 @@ BUILD_FROM_SCRATCH=0
 BUILD_RUN=0
 TEST_TYPE=""
 
-DOCKER_IMAGE="lodufqa/b-day"
+DOCKER_IMAGE="lodufqa/bday"
 
 USAGE="\
 Overview:
