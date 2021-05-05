@@ -2,3 +2,4 @@ shellcheck-py
 pylint
 pytest
 requests
+pep8

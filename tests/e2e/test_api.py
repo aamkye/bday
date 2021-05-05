@@ -3,6 +3,12 @@ import pytest
 import requests
 
 @pytest.mark.e2e
+def test_good_health_api():
+    resp = requests.get("http://localhost:80/health")
+
+    assert resp.status_code == 200
+
+@pytest.mark.e2e
 @pytest.mark.parametrize("user, date", [
     ('test', '1992-06-02'),
     ('asdf', '1992-11-02'),
@@ -48,9 +54,3 @@ def test_bad_get_api(user):
     resp = requests.get(f"http://localhost:80/hello/{user}")
 
     assert resp.status_code == 404
-
-@pytest.mark.e2e
-def test_good_health_api():
-    resp = requests.get("http://localhost:80/health")
-
-    assert resp.status_code == 200

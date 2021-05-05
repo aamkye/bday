@@ -17,6 +17,7 @@ BUILD_PUSH=0
 BUILD_FROM_SCRATCH=0
 BUILD_RUN=0
 TEST_TYPE=""
+AUTOFORMAT=0
 
 DOCKER_IMAGE="lodufqa/bday"
 
@@ -97,6 +98,14 @@ function build-image {
 }
 
 function run-tests {
+    if [[ "${TEST_TYPE:-''}" == "format" || "${TEST_TYPE:-''}" == 'all' ]]; then
+      if [[ "${AUTOFORMAT:-'0'}" == "0" ]]; then
+        docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pep8 module/ tests/ main.py
+      else
+        docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev autopep8 -in-place -aggressive module/ tests/ main.py
+      fi
+
+    fi
     if [[ "${TEST_TYPE:-''}" == "lint" || "${TEST_TYPE:-''}" == 'all' ]]; then
       docker run --rm -v $(pwd):/app "${DOCKER_IMAGE}":latest-dev pylint module/ tests/ main.py
     fi
@@ -159,6 +168,7 @@ do
     T) TEST_TYPE="${OPTARG}" ;;
     p) BUILD_PUSH=1 ;;
     r) BUILD_RUN=1 ;;
+    a) AUTOFORMAT=1 ;;
     h) usage ;;
     :) error "missing argument for -- '${OPTARG}'" 1 ;;
     *) error "invalid option -- '${OPTARG}'" 2 ;; esac
