@@ -2,7 +2,7 @@ import json
 import pytest
 import requests
 
-_URL = "localhost:8080"
+_URL = "localhost:80"
 
 
 @pytest.mark.e2e

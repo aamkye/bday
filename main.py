@@ -24,7 +24,7 @@ def _signal_handler(*_: typing.Any) -> None:
 
 def main():
     config = Config()
-    config.bind = "0.0.0.0:80"
+    config.bind = "0.0.0.0:8080"
     config.use_reloader = bool(os.getenv("AUTO_RELOAD", False))
 
     loop = asyncio.get_event_loop()

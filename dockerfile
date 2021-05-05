@@ -31,7 +31,7 @@ LABEL com.b-day.git.branch="${GIT_BRANCH}"
 LABEL com.b-day.git.date="${GIT_DATE}"
 WORKDIR /app
 COPY --chown=app:app_group ./ /app
-EXPOSE 80
+EXPOSE 8080
 CMD [ "python", "main.py" ]
 
 FROM final AS dev

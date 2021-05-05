@@ -4,7 +4,7 @@ services:
   b-day-app:
     image: lodufqa/bday:latest-dev
     ports:
-      - 0.0.0.0:8080:80
+      - 0.0.0.0:80:8080
     environment:
       AUTO_RELOAD: 'true'
       MONGODB_URL: mongodb://root:admin123@mongodb/?retryWrites=true&w=majority
