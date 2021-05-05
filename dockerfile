@@ -11,7 +11,8 @@ RUN apt update && apt install -y sudo apt-transport-https && \
   dumb-init wget && \
   rm -rf /var/lib/apt/lists/* && \
   python -m pip install --upgrade pip && \
-  wget -O /rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+  wget -O /rds-combined-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem && \
+  chmod 644 /rds-combined-ca-bundle.pem
 USER app
 ENV PATH="/home/app/.local/bin/:${PATH}"
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
