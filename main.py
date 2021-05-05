@@ -33,7 +33,7 @@ def main():
         serve(
             app,
             config,
-            shutdown_trigger=shutdown_event.wait
+            shutdown_trigger=shutdown_event.wait,
         )
     )
 

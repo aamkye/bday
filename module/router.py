@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from fastapi import Body, HTTPException, status, APIRouter
+from fastapi import Body, status, APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from pydantic import ValidationError
@@ -64,15 +64,16 @@ async def show_user(user_id: str):
         status_code=status.HTTP_404_NOT_FOUND,
         content=f"User {user_id} not found")
 
+
 @router.get("/health", response_description="Healthcheck")
 async def healthcheck():
-    try:
-        await db.command("isMaster")
-    except Exception as exc:
-        print(str(exc))
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content="NOK")
+    # try:
+    #     await db.command("isMaster")
+    # except Exception as exc:
+    #     print(str(exc))
+    #     return JSONResponse(
+    #         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #         content="NOK")
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content="OK")
