@@ -26,9 +26,9 @@ FROM reqs AS final
 ARG GIT_SHA
 ARG GIT_BRANCH
 ARG GIT_DATE
-LABEL com.b-day.git.sha="${GIT_SHA}"
-LABEL com.b-day.git.branch="${GIT_BRANCH}"
-LABEL com.b-day.git.date="${GIT_DATE}"
+LABEL com.bday.git.sha="${GIT_SHA}"
+LABEL com.bday.git.branch="${GIT_BRANCH}"
+LABEL com.bday.git.date="${GIT_DATE}"
 WORKDIR /app
 COPY --chown=app:app_group ./ /app
 EXPOSE 8080

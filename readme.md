@@ -23,7 +23,7 @@ After running this command docker-compose env will be set up with hot-reload for
 To get log output:
 
 ```
-docker logs -f bday-poc_b-day-app_1
+docker logs -f bday-poc_bday-app_1
 docker logs -f bday-poc_mongodb_1
 ```
 
@@ -58,7 +58,6 @@ Now you are able to run tests locally.
 ```
 pycodestyle module/ tests/ main.py # just show error
 autopep8 --in-place --aggressive --aggressive --recursive --max-line-length=79 module/ tests/ main.py # autoformat
-
 pylint module/ tests/ main.py # linter
 pytest -m unit --color=yes # unit tests
 pytest -m e2e --color=yes # e2e tests (run while env is up)
