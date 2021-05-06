@@ -1,4 +1,4 @@
-# B-DAY APP !
+# BDAY APP !
 
 ## Description
 
@@ -7,7 +7,9 @@ This is a RESTFUL app that receives requests from users and is able to show if t
 ## Requirements:
 
 * Docker
+* docker-compose (or `docker compose` component)
 * Python 3.9+
+* virtualenv
 
 
 ## Run env in development mode:
