@@ -56,8 +56,8 @@ async def show_user(user_id: str):
             content = {"message": f"Hello, {user_id}! Happy birthday!"}
         else:
             content = {
-                "message": f"Hello, {user_id}! \
-                    Your birthday is in {days} day(s)"}
+                "message": f"Hello, {user_id}! " +
+                f"Your birthday is in {days} day(s)"}
         return JSONResponse(status_code=status.HTTP_200_OK, content=content)
 
     return JSONResponse(
@@ -67,13 +67,6 @@ async def show_user(user_id: str):
 
 @router.get("/health", response_description="Healthcheck")
 async def healthcheck():
-    # try:
-    #     await db.command("isMaster")
-    # except Exception as exc:
-    #     print(str(exc))
-    #     return JSONResponse(
-    #         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-    #         content="NOK")
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content="OK")
