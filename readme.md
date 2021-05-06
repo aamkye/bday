@@ -34,6 +34,8 @@ Additionally there is `mongo-express` container that allows exploration of mongo
 
 ```
 ./build.sh -bt -T "all"
+./build.sh -bt -T "format"
+./build.sh -bt -T "format" -a #autoformat
 ./build.sh -bt -T "lint"
 ./build.sh -bt -T "unit"
 ./build.sh -bt -T "e2e"
