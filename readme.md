@@ -56,14 +56,17 @@ source .venv/bin/activate
 Now you are able to run tests locally.
 
 ```
-pylint module/ tests/ main.py
-pytest -m unit --color=yes
-pytest -m e2e --color=yes # while env is up
+pycodestyle module/ tests/ main.py # just show error
+autopep8 --in-place --aggressive --aggressive --recursive --max-line-length=79 module/ tests/ main.py # autoformat
+
+pylint module/ tests/ main.py # linter
+pytest -m unit --color=yes # unit tests
+pytest -m e2e --color=yes # e2e tests (run while env is up)
 ```
 
 ## Run container manually:
 
 ```
 ./build.sh -bt
-docker run -it --rm -v $(pwd):/app lodufqa/b-day:latest-dev bash
+docker run -it --rm -v $(pwd):/app lodufqa/bday:latest-dev bash
 ```
