@@ -25,19 +25,24 @@ TF:
     sub102:
       AZ: euw1-az3
       CIDR: 10.0.102.0/24
+  EIP:
+    eip-igw0:
+    eip-nat0:
+    eip-nat1:
+    eip-nat2:
   INTERNET-GW:
     internet-gateway0:
       VPC: default
-      EIP: <ip>
+      EIP: eip-igw0
   NAT-GW:
     nat-gateway0:
-      EIP: <ip>
+      EIP: eip-nat0
       subnet: sub100
     nat-gateway1:
-      EIP: <ip>
+      EIP: eip-nat1
       subnet: sub101
     nat-gateway2:
-      EIP: <ip>
+      EIP: eip-nat2
       subnet: sub102
   ROUTING-TABLE:
     sub0-rt:
