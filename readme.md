@@ -1,5 +1,9 @@
 # BDAY APP !
 
+[![GitHub Open Issues](https://img.shields.io/github/issues/amadeuszkryze/bday)](https://github.com/amadeuszkryze/bday/issues)
+
+[![Docker build](http://dockeri.co/image/lodufqa/bday)](https://hub.docker.com/repository/docker/lodufqa/bday)
+
 ## Description
 
 This is a RESTFUL app that receives requests from users and is able to show if today is one bday or when it will be.
