@@ -8,5 +8,5 @@ build.sh
 .gitignore
 .git
 __pycache__
-ansible
 terragrunt
+docs

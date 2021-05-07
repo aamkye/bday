@@ -2,9 +2,11 @@
 
 ## Description
 
-This is a RESTFUL app that receives requests from users and is able to show if today is one b-day or when it will be.
+This is a RESTFUL app that receives requests from users and is able to show if today is one bday or when it will be.
 
-## Requirements:
+## Local env
+
+### Requirements:
 
 * Docker
 * docker-compose (or `docker compose` component)
@@ -12,7 +14,7 @@ This is a RESTFUL app that receives requests from users and is able to show if t
 * virtualenv
 
 
-## Run env in development mode:
+### Run env in development mode:
 
 ```
 ./build.sh -btr
@@ -30,7 +32,7 @@ docker logs -f bday-poc_mongodb_1
 Additionally there is `mongo-express` container that allows exploration of mongodb in GUI mode, just click [here](http://localhost:8081/) after starting env.
 
 
-## Run test automaticly
+### Run test automaticly
 
 ```
 ./build.sh -bt -T "all"
@@ -41,7 +43,7 @@ Additionally there is `mongo-express` container that allows exploration of mongo
 ./build.sh -bt -T "e2e"
 ```
 
-## Run tests manually (locally)
+### Run tests manually (locally)
 
 First of all you need to setup virtualenv:
 
@@ -65,9 +67,13 @@ pytest -m unit --color=yes # unit tests
 pytest -m e2e --color=yes # e2e tests (run while env is up)
 ```
 
-## Run container manually:
+### Run container manually:
 
 ```
 ./build.sh -bt
 docker run -it --rm -v $(pwd):/app lodufqa/bday:latest-dev bash
 ```
+
+## AWS & Terragrunt
+
+![Diagram](docs/bday.png?raw=true "BDAY Diagram")
