@@ -1,8 +1,6 @@
 # BDAY APP !
 
-[![GitHub Open Issues](https://img.shields.io/github/issues/amadeuszkryze/bday)](https://github.com/amadeuszkryze/bday/issues)
-
-[![Docker build](http://dockeri.co/image/lodufqa/bday)](https://hub.docker.com/repository/docker/lodufqa/bday)
+[![Docker build](http://dockeri.co/image/lodufqa/bday)](https://hub.docker.com/r/lodufqa/bday)
 
 ## Description
 
