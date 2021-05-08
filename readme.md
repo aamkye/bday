@@ -2,9 +2,14 @@
 
 [![Docker build](http://dockeri.co/image/lodufqa/bday)](https://hub.docker.com/r/lodufqa/bday)
 
-## Description
+## Description & diagram
 
-This is a RESTFUL app that receives requests from users and is able to show if today is one bday or when it will be.
+![Diagram](docs/bday.png?raw=true "BDAY Diagram")
+
+
+## Terragrunt
+
+TBD
 
 ## Local env
 
@@ -75,7 +80,3 @@ pytest -m e2e --color=yes # e2e tests (run while env is up)
 ./build.sh -bt
 docker run -it --rm -v $(pwd):/app lodufqa/bday:latest-dev bash
 ```
-
-## AWS & Terragrunt
-
-![Diagram](docs/bday.png?raw=true "BDAY Diagram")
