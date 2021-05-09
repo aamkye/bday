@@ -56,10 +56,6 @@ resource "aws_ecs_service" "main" {
     container_port   = var.container_port
   }
 
-  lifecycle {
-    ignore_changes = [task_definition, desired_count]
-  }
-
   tags = {
     Name = "main_service"
   }

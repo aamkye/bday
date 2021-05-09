@@ -37,7 +37,7 @@ variable "private_subnets" {
 
 variable "container_image" {
   type    = string
-  default = "lodufqa/bday:abd0c10"
+  default = "lodufqa/bday:29d0b00"
 }
 
 variable "service_desired_count" {
