@@ -2,14 +2,13 @@
 
 [![Docker build](http://dockeri.co/image/lodufqa/bday)](https://hub.docker.com/r/lodufqa/bday)
 
+***
+
 ## Description & diagram
 
 ![Diagram](docs/bday.png?raw=true "BDAY Diagram")
 
-
-## Terragrunt
-
-TBD
+***
 
 ## Local env
 
@@ -19,7 +18,7 @@ TBD
 * docker-compose (or `docker compose` component)
 * Python 3.9+
 * virtualenv
-
+* Terraform (for deployments)
 
 ### Run env in development mode:
 
@@ -79,4 +78,52 @@ pytest -m e2e --color=yes # e2e tests (run while env is up)
 ```
 ./build.sh -bt
 docker run -it --rm -v $(pwd):/app lodufqa/bday:latest-dev bash
+```
+
+***
+
+## Terraform
+
+### *Initial configs*
+
+To run terraform, you need to create valid configs in `~/.aws/` (terraform uses profile):
+* `config`
+* `credentials`
+
+Then terraform need first init (unless it has been already done).
+This step will create S3 state bucket and dynamodb lockfile.
+
+```
+cd ./terraform/init/
+terraform init
+terraform apply
+```
+
+After that you can navigate to upper folder
+
+```
+cd ..
+```
+
+### *Start here if solutions is already deployed to AWS*
+
+Init actual terraform scripts:
+
+```
+terraform init
+```
+
+However, before first run you need to create secret file in `./terraform` called `secrets.tfvars` with following structure:
+
+```
+dbusername = "<user>"
+dbpassword = "<password>"
+alb_tls_cert_arn = "<arn>"
+```
+
+Now you can safely run:
+
+```
+terraform plan -var-file=secrets.tfvars
+terraform apply -var-file=secrets.tfvars
 ```
