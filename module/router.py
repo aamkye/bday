@@ -18,13 +18,12 @@ db = client.bday
 @router.put(
     "/hello/{user_id}",
     response_description="Create user entry.",
-    response_model=bday.UserModel)
-async def put_user(user_id: str, body: bday.UserModel = Body(...)):
+    response_model=bday.InputModel)
+async def put_user(user_id: str, body: bday.InputModel = Body(...)):
     input_obj = jsonable_encoder(body)
     try:
         _user = dict(
             bday.UserModel(
-                _id=input_obj['_id'],
                 name=user_id,
                 date_of_birth=input_obj['date_of_birth']
             )
