@@ -65,15 +65,11 @@ variable "health_check_path" {
   default = "/health"
 }
 
-variable "r53_zone_id" {
-  type = string
-  default = "Z06376172LDC1GHT4YXA5"
-}
-
 variable "r53_record_name" {
   type = string
   default = "bday.ak95.io"
 }
+
 
 variable "dbusername" {
   type    = string
@@ -87,5 +83,10 @@ variable "dbpassword" {
 
 variable "alb_tls_cert_arn" {
   type    = string
+  sensitive = true
+}
+
+variable "r53_zone_id" {
+  type = string
   sensitive = true
 }

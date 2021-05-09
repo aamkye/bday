@@ -119,6 +119,7 @@ However, before first run you need to create secret file in `./terraform` called
 dbusername = "<user>"
 dbpassword = "<password>"
 alb_tls_cert_arn = "<arn>"
+r53_zone_id = <id>
 ```
 
 Now you can safely run:
