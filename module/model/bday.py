@@ -20,6 +20,7 @@ class PyObjectId(ObjectId):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string")
 
+
 class InputModel(BaseModel):
     date_of_birth: str = Field(...)
 
@@ -42,6 +43,8 @@ class InputModel(BaseModel):
                 "date_of_birth": "1992-06-22",
             }
         }
+
+
 class UserModel(InputModel):
     _id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: Optional[str] = Field(default=None)
